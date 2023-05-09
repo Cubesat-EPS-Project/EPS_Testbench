@@ -31,6 +31,7 @@ private:
     QByteArray serialData;
     QString serialBuffer;
     QString parsed_data;
+    QString pd4;
     QString pd3;
     QString pd2;
     QString pd1;

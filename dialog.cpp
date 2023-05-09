@@ -104,6 +104,7 @@ void Dialog::readSerial()
         serialBuffer = "";
         qDebug() << buffer_split << "\n";
         parsed_data = buffer_split[0];
+        pd4=buffer_split[4];
         pd3=buffer_split[3];
         pd2=buffer_split[2];
         pd1=buffer_split[1];
@@ -122,5 +123,7 @@ void Dialog::updateTemperature(QString sensor_reading)
     ui->lcdNumber->display(pd1);
     ui->lcdNumber_2->display(pd2);
     ui->lcdNumber_3->display(pd3);
+    ui->lcdNumber_4->display(pd4);
+
 
 }
