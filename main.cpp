@@ -7,6 +7,7 @@ int main(int argc, char *argv[])
     Dialog w;
     w.setWindowTitle("CubeSass EPS Test Bench");
     //w.setFixedSize(400,112);
+
     w.show();
 
     return a.exec();

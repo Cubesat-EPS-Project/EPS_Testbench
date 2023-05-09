@@ -1043,8 +1043,14 @@ li.checked::marker { content: &quot;\2612&quot;; }
          <kerning>true</kerning>
         </font>
        </property>
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
        <property name="text">
         <string>Battery Charger Input Voltage</string>
+       </property>
+       <property name="scaledContents">
+        <bool>false</bool>
        </property>
        <property name="wordWrap">
         <bool>true</bool>

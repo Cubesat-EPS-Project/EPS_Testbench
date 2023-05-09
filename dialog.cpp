@@ -1,10 +1,20 @@
 #include "dialog.h"
 #include "ui_dialog.h"
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <QString>
+#include <unistd.h>
+#include <ios>
+#include <fstream>
+#include <string>
 #include <QSerialPort>
 #include <QSerialPortInfo>
 #include <string>
 #include <QDebug>
 #include <QMessageBox>
+using namespace std;
+
 
 
 Dialog::Dialog(QWidget *parent) :
@@ -12,6 +22,7 @@ Dialog::Dialog(QWidget *parent) :
     ui(new Ui::Dialog)
 {
     ui->setupUi(this);
+    ui->label_2->setFrameStyle(2);
     ui->temp_lcdNumber->display("-------");
     arduino = new QSerialPort(this);
     serialBuffer = "";
@@ -102,7 +113,9 @@ void Dialog::readSerial()
     }else{
         // the second element of buffer_split is parsed correctly, update the temperature value on temp_lcdNumber
         serialBuffer = "";
+
         qDebug() << buffer_split << "\n";
+
         parsed_data = buffer_split[0];
         pd4=buffer_split[4];
         pd3=buffer_split[3];
