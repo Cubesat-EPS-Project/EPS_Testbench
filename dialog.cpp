@@ -71,13 +71,14 @@ Dialog::Dialog(QWidget *parent) :
     if(1){
         qDebug() << "Found the arduino port...\n";
 
-        arduino->setPortName("ttyUSB0");
+        arduino->setPortName("ttyUSB1");
         arduino->open(QSerialPort::ReadOnly);
         arduino->setBaudRate(QSerialPort::Baud115200);
         arduino->setDataBits(QSerialPort::Data8);
         arduino->setFlowControl(QSerialPort::NoFlowControl);
         arduino->setParity(QSerialPort::NoParity);
         arduino->setStopBits(QSerialPort::OneStop);
+
         QObject::connect(arduino, SIGNAL(readyRead()), this, SLOT(readSerial()));
     }else{
         qDebug() << "Couldn't find the correct port for the arduino.\n";
@@ -108,22 +109,25 @@ void Dialog::readSerial()
     if(buffer_split.length() < 3){
         // no parsed value yet so continue accumulating bytes from serial in the buffer.
         serialData = arduino->readAll();
+        qDebug() << serialData << "\n";
         serialBuffer = serialBuffer + QString::fromStdString(serialData.toStdString());
         serialData.clear();
     }else{
         // the second element of buffer_split is parsed correctly, update the temperature value on temp_lcdNumber
         serialBuffer = "";
 
-        qDebug() << buffer_split << "\n";
+        //qDebug() << buffer_split << "\n";
 
         parsed_data = buffer_split[0];
         pd4=buffer_split[4];
         pd3=buffer_split[3];
         pd2=buffer_split[2];
         pd1=buffer_split[1];
-       // temperature_value = (9/5.0) * (parsed_data.toDouble()) + 32; // convert to fahrenheit
+
         //qDebug() << "Temperature: " << temperature_value << "\n";
         //parsed_data = QString::number(temperature_value, 'g', 4); // format precision of temperature_value to 4 digits or fewer
+
+
         Dialog::updateTemperature(parsed_data);
     }
 
