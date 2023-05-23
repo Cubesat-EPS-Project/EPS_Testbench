@@ -71,7 +71,7 @@ Dialog::Dialog(QWidget *parent) :
     if(1){
         qDebug() << "Found the arduino port...\n";
 
-        arduino->setPortName("ttyUSB1");
+        arduino->setPortName("ttyUSB0");
         arduino->open(QSerialPort::ReadOnly);
         arduino->setBaudRate(QSerialPort::Baud115200);
         arduino->setDataBits(QSerialPort::Data8);
@@ -119,10 +119,14 @@ void Dialog::readSerial()
         //qDebug() << buffer_split << "\n";
 
         parsed_data = buffer_split[0];
+        pd1=buffer_split[1];
         pd4=buffer_split[4];
         pd3=buffer_split[3];
         pd2=buffer_split[2];
-        pd1=buffer_split[1];
+        pd5=buffer_split[5];
+        pd6=buffer_split[6];
+        pd7=buffer_split[7];
+       // pd8=buffer_split[8];
 
         //qDebug() << "Temperature: " << temperature_value << "\n";
         //parsed_data = QString::number(temperature_value, 'g', 4); // format precision of temperature_value to 4 digits or fewer
@@ -137,10 +141,15 @@ void Dialog::updateTemperature(QString sensor_reading)
 {
 
     ui->temp_lcdNumber->display(parsed_data);
-    ui->lcdNumber->display(pd1);
-    ui->lcdNumber_2->display(pd2);
+    ui->lcdNumber->display(pd2);
+    ui->lcdNumber_2->display(pd1);
     ui->lcdNumber_3->display(pd3);
-    ui->lcdNumber_4->display(pd4);
-
+    ui->lcdNumber_4->display(pd7);
+    ui->lcdNumber_5->display(pd6);
+    ui->lcdNumber_6->display(pd4);
+    ui->lcdNumber_7->display(pd7);
+    ui->lcdNumber_8->display(pd5);
+    mppteff= (pd5.toDouble()*pd7.toDouble()*100)/(pd4.toDouble()*pd6.toDouble());
+    ui->lcdNumber_9->display(mppteff);
 
 }

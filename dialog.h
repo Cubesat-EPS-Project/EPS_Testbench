@@ -35,6 +35,11 @@ private:
     QString pd3;
     QString pd2;
     QString pd1;
+    QString pd5;
+    QString pd6;
+    QString pd7;
+    QString pd8;
+    double mppteff;
     double temperature_value;
 };
 
