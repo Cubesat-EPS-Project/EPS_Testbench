@@ -28,6 +28,10 @@ Dialog::Dialog(QWidget *parent) :
     serialBuffer = "";
     parsed_data = "";
     pd2= "";
+    pd8="";
+    //pd9="";
+    //pd10="";
+    //pd11="";
     temperature_value = 0.0;
 
     /*
@@ -72,7 +76,7 @@ Dialog::Dialog(QWidget *parent) :
         qDebug() << "Found the arduino port...\n";
 
         arduino->setPortName("ttyUSB0");
-        arduino->open(QSerialPort::ReadOnly);
+        arduino->open(QSerialPort::ReadWrite);
         arduino->setBaudRate(QSerialPort::Baud115200);
         arduino->setDataBits(QSerialPort::Data8);
         arduino->setFlowControl(QSerialPort::NoFlowControl);
@@ -126,8 +130,10 @@ void Dialog::readSerial()
         pd5=buffer_split[5];
         pd6=buffer_split[6];
         pd7=buffer_split[7];
-       // pd8=buffer_split[8];
-
+        pd8=buffer_split[8];
+        pd9=buffer_split[9];
+        //pd10=buffer_split[10];
+        //pd11=buffer_split[11];
         //qDebug() << "Temperature: " << temperature_value << "\n";
         //parsed_data = QString::number(temperature_value, 'g', 4); // format precision of temperature_value to 4 digits or fewer
 
@@ -140,16 +146,20 @@ void Dialog::readSerial()
 void Dialog::updateTemperature(QString sensor_reading)
 {
 
-    ui->temp_lcdNumber->display(parsed_data);
-    ui->lcdNumber->display(pd2);
-    ui->lcdNumber_2->display(pd1);
-    ui->lcdNumber_3->display(pd3);
-    ui->lcdNumber_4->display(pd7);
-    ui->lcdNumber_5->display(pd6);
-    ui->lcdNumber_6->display(pd4);
-    ui->lcdNumber_7->display(pd7);
-    ui->lcdNumber_8->display(pd5);
+    ui->temp_lcdNumber->display(parsed_data);//time
+    ui->lcdNumber->display(pd2);//batt curr
+    ui->lcdNumber_2->display(pd1);//pow path curr
+    ui->lcdNumber_3->display(pd3);ui->lcdNumber_20->display(pd3);//batt volt
+    ui->lcdNumber_4->display(pd7);//mppt op volt
+    ui->lcdNumber_5->display(pd6);ui->lcdNumber_32->display(pd6);//ip volt
+    ui->lcdNumber_6->display(pd4);//ip curr
+    ui->lcdNumber_7->display(pd7);ui->lcdNumber_19->display(pd7);ui->lcdNumber_33->display(pd7);//mppt op volt, batt ip volt
+    ui->lcdNumber_8->display(pd5);//mppt op curr
+
+
     mppteff= (pd5.toDouble()*pd7.toDouble()*100)/(pd4.toDouble()*pd6.toDouble());
     ui->lcdNumber_9->display(mppteff);
 
+    ui->lcdNumber_10->display(pd8);
+    ui->lcdNumber_11->display(pd9);
 }

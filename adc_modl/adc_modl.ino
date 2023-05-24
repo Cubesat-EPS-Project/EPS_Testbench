@@ -24,7 +24,9 @@ ADS1115_WE adc = ADS1115_WE(I2C_ADDRESS);
 ADS1115_WE adc2 = ADS1115_WE(I2C_ADDRESS2);
 float R1 = 30000.0;
 float R2 = 7440.0;
-float ref = 3.3;
+float ref = 3.32;
+float ref2=4.96;
+float multiplier=0.1;
 unsigned long time = 0;
 String pd4;
 String pd3;
@@ -34,9 +36,10 @@ String pd5;
 String pd6;
 String pd7;
 String pd0;
-
-
-
+String pd8;
+String pd9;
+String pd10;
+String pd11;
 
 
 
@@ -167,7 +170,7 @@ void loop() {
   //Serial.print(",");
   //Serial.print(",   1: ");
   voltage = readChannel(ADS1115_COMP_1_GND);
-  voltage = (voltage - 1.65) / 0.1;
+  voltage = (1.65 - voltage) / 0.1;
   pd1 = voltage;
   //Serial.print(voltage);
   //Serial.print(",");
@@ -194,14 +197,14 @@ void loop() {
 
   //Serial.print("    1: ");
   voltage = readChannel2(ADS1115_COMP_0_GND);
-  voltage = (voltage - 1.65) / 0.1;
+  voltage = (1.65 - voltage) / 0.1;
   voltage = voltage * 2;
   pd4 = voltage;
   // Serial.print(voltage);
   // Serial.print(",");
   //Serial.print(",   1: ");
   voltage = readChannel2(ADS1115_COMP_1_GND);
-  voltage = (voltage - 1.65) / 0.1;
+  voltage = (1.65 - voltage) / 0.1;
   voltage = voltage * 2;
 pd5=voltage;
   // Serial.print(voltage);
@@ -217,10 +220,31 @@ pd6=voltage;
   voltage = ((voltage)) / (R2 / (R1 + R2));
   pd7=voltage;
   // Serial.println(voltage);
+
+int adc = analogRead(A2);
+float volt= ((adc*ref2)/1024)/(R2/(R1+R2));
+pd8=volt;
+
+int adc2 = analogRead(A3);
+float volt2= ((adc2*ref2)/1024)/(R2/(R1+R2));
+pd9=volt2;
+
+int adc3= analogRead(A0)*(3.3 / 1023.0);
+float curr1=(adc3-1.65)/multiplier;
+pd10=curr1;
+
+int adc4= analogRead(A1)*(3.3 / 675.0);
+float curr2=(adc4-1.65)/multiplier;
+pd11=curr2;
+
+
+
   Serial.print(pd0);Serial.print(",");Serial.print(pd1);Serial.print(",");Serial.print(pd2);Serial.print(",");Serial.print(pd3);Serial.print(",");Serial.print(pd4);
-  Serial.print(",");Serial.print(pd5);Serial.print(",");Serial.print(pd6);Serial.print(",");Serial.print(pd7);
+  Serial.print(",");Serial.print(pd5);Serial.print(",");Serial.print(pd6);Serial.print(",");Serial.print(pd7);Serial.print(",");Serial.print(pd8);Serial.print(",");
+  Serial.print(pd9);
+  //Serial.print(",");Serial.print(pd10);Serial.print(",");Serial.print(pd11);
   Serial.println(",");
-  Serial.flush();
+  //Serial.flush();
 }
 
 float readChannel(ADS1115_MUX channel) {

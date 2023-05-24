@@ -5,7 +5,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     Dialog w;
-    w.setWindowTitle("CubeSass EPS Test Bench");
+    w.setWindowTitle("CubeSat EPS Test Bench");
     //w.setFixedSize(400,112);
 
     w.show();
