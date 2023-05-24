@@ -22,6 +22,8 @@ private slots:
     void readSerial();
     void updateTemperature(QString);
 
+    void on_pushButton_clicked();
+
 private:
     Ui::Dialog *ui;
 
@@ -42,6 +44,7 @@ private:
     QString pd9;
     QString pd10;
     QString pd11;
+    //float e1=0.0,e2=0.0,e4,e5;
     double mppteff;
     double temperature_value;
 };

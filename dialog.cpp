@@ -14,7 +14,10 @@
 #include <QDebug>
 #include <QMessageBox>
 using namespace std;
-
+float e1=0.0;
+float e2=0.0;
+float e4=0.0;
+float e5=0.0;
 
 
 Dialog::Dialog(QWidget *parent) :
@@ -134,6 +137,8 @@ void Dialog::readSerial()
         pd9=buffer_split[9];
         //pd10=buffer_split[10];
         //pd11=buffer_split[11];
+
+
         //qDebug() << "Temperature: " << temperature_value << "\n";
         //parsed_data = QString::number(temperature_value, 'g', 4); // format precision of temperature_value to 4 digits or fewer
 
@@ -147,19 +152,33 @@ void Dialog::updateTemperature(QString sensor_reading)
 {
 
     ui->temp_lcdNumber->display(parsed_data);//time
-    ui->lcdNumber->display(pd2);//batt curr
-    ui->lcdNumber_2->display(pd1);//pow path curr
+    float p2=e2+pd2.toFloat();
+    float p1=e1+pd1.toFloat();
+    float p4=e4+pd4.toFloat();
+    float p5=e5+pd5.toFloat();
+    ui->lcdNumber->display(p2);//batt curr
+    ui->lcdNumber_2->display(p1);//pow path curr
     ui->lcdNumber_3->display(pd3);ui->lcdNumber_20->display(pd3);//batt volt
     ui->lcdNumber_4->display(pd7);//mppt op volt
     ui->lcdNumber_5->display(pd6);ui->lcdNumber_32->display(pd6);//ip volt
-    ui->lcdNumber_6->display(pd4);//ip curr
+    ui->lcdNumber_6->display(p4);//ip curr
     ui->lcdNumber_7->display(pd7);ui->lcdNumber_19->display(pd7);ui->lcdNumber_33->display(pd7);//mppt op volt, batt ip volt
-    ui->lcdNumber_8->display(pd5);//mppt op curr
+    ui->lcdNumber_8->display(p5);//mppt op curr
 
 
     mppteff= (pd5.toDouble()*pd7.toDouble()*100)/(pd4.toDouble()*pd6.toDouble());
+
     ui->lcdNumber_9->display(mppteff);
 
     ui->lcdNumber_10->display(pd8);
     ui->lcdNumber_11->display(pd9);
 }
+
+void Dialog::on_pushButton_clicked()
+{
+    e1=0-pd1.toFloat();
+    e2=0-pd2.toFloat();
+    e4=0-pd4.toFloat();
+    e5=0-pd5.toFloat();
+}
+
